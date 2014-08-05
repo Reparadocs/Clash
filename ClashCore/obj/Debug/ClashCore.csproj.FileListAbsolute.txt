@@ -1,0 +1,5 @@
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashCore\bin\Debug\ClashCore.dll
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashCore\bin\Debug\ClashCore.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashCore\obj\Debug\ClashCore.csprojResolveAssemblyReference.cache
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashCore\obj\Debug\ClashCore.dll
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashCore\obj\Debug\ClashCore.pdb

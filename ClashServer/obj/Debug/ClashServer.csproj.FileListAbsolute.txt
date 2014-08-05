@@ -1,0 +1,10 @@
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashServer.exe.config
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashServer.exe
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashServer.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashNet.dll
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashNet.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\obj\Debug\ClashServer.csprojResolveAssemblyReference.cache
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\obj\Debug\ClashServer.exe
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\obj\Debug\ClashServer.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashCore.dll
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashCore.pdb
