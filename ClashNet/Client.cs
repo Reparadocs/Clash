@@ -48,6 +48,7 @@ namespace ClashNet
         {
             byte[] buffer = new byte[4096];
             int bytesRead;
+            MessageType type;
 
             while(true)
             {
@@ -56,19 +57,20 @@ namespace ClashNet
                 try
                 {
                     bytesRead = stream.Read(buffer, 0, 4096);
-                    observer.OnNotify(new MessageWrapper(MessageType.Normal, buffer));
+                    type = MessageType.Normal;
+                    observer.OnNotify(new MessageWrapper(MessageType.Normal, buffer, Id));
                 }
                 catch
                 {
                     State = ClientState.Disconnected;
-                    observer.OnNotify(new MessageWrapper(MessageType.Disconnect, null));
+                    observer.OnNotify(new MessageWrapper(MessageType.Disconnect, null, Id));
                     break;
                 }
 
                 if (bytesRead == 0)
                 {
                     State = ClientState.Disconnected;
-                    observer.OnNotify(new MessageWrapper(MessageType.Disconnect, null));
+                    observer.OnNotify(new MessageWrapper(MessageType.Disconnect, null, Id));
                     break;
                 }
             }

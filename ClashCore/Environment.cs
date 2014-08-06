@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ClashNet;
-using ClashCore;
 
-namespace ClashServer
+namespace ClashCore
 {
-    class Program
+    public abstract class Environment : Card
     {
-        static void Main(string[] args)
-        {
-
-        }
+        public Environment(Player owner) : base(owner) { }
     }
 }

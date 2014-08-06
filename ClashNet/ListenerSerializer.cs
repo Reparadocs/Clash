@@ -9,63 +9,55 @@ using ClashCore;
 
 namespace ClashNet
 {
-    public class ListenerSerializer : Listener
+    public class ListenerSerializer : IMessageObserver
     {
-        private class ClientIdSerializableWrapper
-        {
-            public int clientId { get; private set; }
-            public ISerializable serializable { get; private set; }
-
-            public ClientIdSerializableWrapper(int clientId, ISerializable serializable)
-            {
-                this.clientId = clientId;
-                this.serializable = serializable;
-            }
-        }
+        public Listener Listener { get; private set; }
 
         SerializableIdService serializableIdService;
+        ISerializableObserver observer;
 
-        public ListenerSerializer(int port)
-            : base(port)
+        public ListenerSerializer(int port, ISerializableObserver observer)
         {
+            this.Listener = new Listener(port, this);
+            this.observer = observer;
             serializableIdService = ServiceLocator.GetService<SerializableIdService>();
         }
 
-        public List<SerializableWrapper> GetSerializables()
+        public void OnNotify(MessageWrapper message)
         {
-            List<SerializableWrapper> serializables = new List<SerializableWrapper>();
-            List<MessageWrapper> messages = GetMessages();
-            foreach (MessageWrapper message in messages)
-            {
-                using (MemoryStream m = new MemoryStream(message.Message))
-                {
-                    using (BinaryReader r = new BinaryReader(m))
-                    {
-                        byte[] objMessage = new byte[4096];
-                        Buffer.BlockCopy(message.Message, sizeof(Int32), objMessage, 0, message.Message.Length - sizeof(Int32));
-                        ISerializable s = (ISerializable)serializableIdService.getSerializable(r.ReadInt32()).GetMethod("Deserialize").Invoke(null, new object[] {objMessage});
-                        serializables.Add(new SerializableWrapper(message.ClientId, message.Type, s));
-                    }
-                }
-            }
-            return serializables;
+            new Thread(new ParameterizedThreadStart(tOnNotify)).Start(message);
         }
 
-
-        public void SendSerializableToClient(int clientId, ISerializable serializable)
+        private void tOnNotify(object message)
         {
-            new Thread(new ParameterizedThreadStart(tSendSerializableToClient)).Start(new ClientIdSerializableWrapper(clientId, serializable));
+            MessageWrapper wrapper = (MessageWrapper)message;
+            using (MemoryStream m = new MemoryStream(wrapper.Message))
+            {
+                using (BinaryReader r = new BinaryReader(m))
+                {
+                    byte[] objMessage = new byte[4096];
+                    Buffer.BlockCopy(wrapper.Message, sizeof(Int32), objMessage, 0, wrapper.Message.Length - sizeof(Int32));
+                    ISerializable s = (ISerializable)serializableIdService.getSerializable(r.ReadInt32()).GetMethod("Deserialize").Invoke(null, new object[] { objMessage });
+                    observer.OnNotify(new SerializableWrapper(wrapper.Type, s, wrapper.ClientId));
+                }
+            }
+
+        }
+
+        public void SendSerializableToClient(ISerializable serializable, int clientId)
+        {
+            new Thread(new ParameterizedThreadStart(tSendSerializableToClient)).Start(new SerializableWrapper(serializable, clientId));
         }
 
         private void tSendSerializableToClient(object clientIdSerializable)
         {
-            ClientIdSerializableWrapper wrapper = (ClientIdSerializableWrapper)clientIdSerializable;
-            byte[] typeId = BitConverter.GetBytes(serializableIdService.getId(wrapper.serializable.GetType()));
-            byte[] message = wrapper.serializable.Serialize(wrapper.serializable);
+            SerializableWrapper wrapper = (SerializableWrapper)clientIdSerializable;
+            byte[] typeId = BitConverter.GetBytes(serializableIdService.getId(wrapper.Serializable.GetType()));
+            byte[] message = wrapper.Serializable.Serialize(wrapper.Serializable);
             byte[] final = new byte[typeId.Length + message.Length];
             Buffer.BlockCopy(typeId, 0, final, 0, typeId.Length);
             Buffer.BlockCopy(message, 0, final, typeId.Length, message.Length);
-            SendMessageToClient(wrapper.clientId, final);
+            Listener.SendMessageToClient(final, wrapper.ClientId);
         }
 
 

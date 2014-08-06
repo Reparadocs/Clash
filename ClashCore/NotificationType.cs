@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ClashNet;
-using ClashCore;
 
-namespace ClashServer
+namespace ClashCore
 {
-    class Program
+    enum NotificationType
     {
-        static void Main(string[] args)
-        {
-
-        }
+        BeginTurn,
+        EndTurn,
+        EnterZone,
+        ExitZone
     }
 }

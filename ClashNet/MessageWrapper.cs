@@ -23,5 +23,11 @@ namespace ClashNet
         {
             this.ClientId = clientId;
         }
+
+        public MessageWrapper(byte[] message, int clientId)
+        {
+            this.Message = message;
+            this.ClientId = clientId;
+        }
     }
 }

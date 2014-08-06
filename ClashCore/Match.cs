@@ -8,16 +8,24 @@ namespace ClashCore
 {
     public class Match
     {
-        public Player Player1 { get; private set; }
-        public Player Player2 { get; private set; }
+        public List<Player> Players { get; private set; }
 
-        int curTurn = 0;
+        public MatchObserver Observer { get; private set; }
 
-        public Match(Player player1, Player player2)
+        public Match(List<Player> players)
         {
-            this.Player1 = player1;
-            this.Player2 = player2;
+            if(players.Count != Global.NumPlayers)
+            {
+                throw new Exception("Unexpected number of players");
+            }
+            this.Players = players;
+            for(int i = 0; i < Global.NumPlayers; i++)
+            {
+                Players[i].Opponent = Players[(i * -1) + 1];
+                Players[i].Match = this;
+            }
+            Observer = new MatchObserver(this);
+            Players[0].BeginTurn();
         }
-
     }
 }

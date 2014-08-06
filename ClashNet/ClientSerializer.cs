@@ -12,27 +12,34 @@ namespace ClashNet
 {
     public class ClientSerializer : IMessageObserver
     {
+        public Client Client { get; private set; }
+
         SerializableIdService serializableIdService;
-        Client client;
         ISerializableObserver observer;
 
-        public ClientSerializer(Client client, ISerializableObserver observer)
+        public ClientSerializer(TcpClient tcpClient, ISerializableObserver observer)
         {
-            this.client = client;
+            this.Client = new Client(tcpClient, this);
             this.observer = observer;
             serializableIdService = ServiceLocator.GetService<SerializableIdService>();
         }
 
         public void OnNotify(MessageWrapper message)
         {
-            using (MemoryStream m = new MemoryStream(message.Message))
+            new Thread(new ParameterizedThreadStart(tOnNotify)).Start(message);
+        }
+
+        private void tOnNotify(object message)
+        {
+            MessageWrapper wrapper = (MessageWrapper)message;
+            using (MemoryStream m = new MemoryStream(wrapper.Message))
             {
                 using (BinaryReader r = new BinaryReader(m))
                 {
                     byte[] objMessage = new byte[4096];
-                    Buffer.BlockCopy(message.Message, sizeof(Int32), objMessage, 0, message.Message.Length - sizeof(Int32));
+                    Buffer.BlockCopy(wrapper.Message, sizeof(Int32), objMessage, 0, wrapper.Message.Length - sizeof(Int32));
                     ISerializable s = (ISerializable)serializableIdService.getSerializable(r.ReadInt32()).GetMethod("Deserialize").Invoke(null, new object[] { objMessage });
-                    observer.OnNotify(new SerializableWrapper(message.Type, s));
+                    observer.OnNotify(new SerializableWrapper(wrapper.Type, s, wrapper.ClientId));
                 }
             }
         }
@@ -50,7 +57,7 @@ namespace ClashNet
             byte[] final = new byte[typeId.Length + message.Length];
             Buffer.BlockCopy(typeId, 0, final, 0, typeId.Length);
             Buffer.BlockCopy(message, 0, final, typeId.Length, message.Length);
-            client.SendMessage(final);
+            Client.SendMessage(final);
         }
 
     }

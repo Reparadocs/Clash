@@ -11,54 +11,32 @@ namespace ClashNet
 {
     public class Listener
     {
-        private class ClientIdMessageWrapper
-        {
-            public int clientId { get; private set; }
-            public byte[] message { get; private set; }
-
-            public ClientIdMessageWrapper(int clientId, byte[] message)
-            {
-                this.clientId = clientId;
-                this.message = message;
-            }
-        }
-        public ListenerState State { get; private set; }
-
         TcpListener tcpListener;
         List<Client> connectedClients;
-        List<MessageWrapper> messages;
+        IMessageObserver observer;
         int currentId; 
 
-        public Listener(int port)
+        public Listener(int port, IMessageObserver observer)
         {
-            State = ListenerState.Active;
             currentId = 0;
-            messages = new List<MessageWrapper>();
+            this.observer = observer;
             connectedClients = new List<Client>();
             tcpListener = new TcpListener(IPAddress.Any, port);
             new Thread(new ThreadStart(tClientListener)).Start();
         }
 
-        public List<MessageWrapper> GetMessages()
+        public void SendMessageToClient(byte[] message, int clientId)
         {
-            List<MessageWrapper> returnMessages = messages.ConvertAll(m => new MessageWrapper(m.ClientId, m.Type, m.Message));
-            messages.Clear();
-            State = ListenerState.Active;
-            return returnMessages;
+            new Thread(new ParameterizedThreadStart(tSendMessageToClient)).Start(new MessageWrapper(message, clientId));
         }
 
-        public void SendMessageToClient(int clientId, byte[] message)
+        private void tSendMessageToClient(object message)
         {
-            new Thread(new ParameterizedThreadStart(tSendMessageToClient)).Start(new ClientIdMessageWrapper(clientId, message));
-        }
-
-        private void tSendMessageToClient(object clientIdMessage)
-        {
-            ClientIdMessageWrapper wrapper = (ClientIdMessageWrapper)clientIdMessage;
-            Client c = connectedClients.Find(i => i.Id == wrapper.clientId);
+            MessageWrapper wrapper = (MessageWrapper)message;
+            Client c = connectedClients.Find(i => i.Id == wrapper.ClientId);
             if (c != null && (c.State != ClientState.Disconnected))
             {
-                c.SendMessage(wrapper.message);
+                c.SendMessage(wrapper.Message);
             }
             else
             {
@@ -78,36 +56,10 @@ namespace ClashNet
 
         private void tConnectClient(object client)
         {
-            Client c = new Client((TcpClient)client, currentId);
+            Client c = new Client((TcpClient)client, observer, currentId);
             currentId++;
             connectedClients.Add(c);
-            messages.Add(new MessageWrapper(c.Id, MessageType.Connect, null));
-            State = ListenerState.MessagesReceived;
-            new Thread(new ParameterizedThreadStart(tClientMonitor)).Start(c);
-        }
-
-        private void tClientMonitor(object client)
-        {
-            Client monitored = (Client)client;
-            while(true)
-            {
-                if(monitored.State != ClientState.Active)
-                {
-                    if(monitored.State != ClientState.MessagesReceived)
-                    {
-                        messages.Add(new MessageWrapper(monitored.Id, MessageType.Disconnect, null));
-                    }
-                    else
-                    {
-                        foreach(byte[] b in monitored.GetMessages())
-                        {
-                            messages.Add(new MessageWrapper(monitored.Id, MessageType.Normal, b));
-                        }
-                    }
-                    State = ListenerState.MessagesReceived;
-                }
-                Thread.Sleep(1000);
-            }
+            observer.OnNotify(new MessageWrapper(MessageType.Connect, null, c.Id));
         }
     }
 }

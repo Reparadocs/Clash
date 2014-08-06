@@ -10,7 +10,7 @@ namespace ClashCore
     {
         public List<Card> Cards { get; private set; }
 
-        public Zone(List<Card> cards)
+        public ZoneContainer(List<Card> cards)
         {
             this.Cards = cards;
         }

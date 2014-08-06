@@ -42,8 +42,9 @@
     <Compile Include="Client.cs" />
     <Compile Include="ClientSerializer.cs" />
     <Compile Include="ClientState.cs" />
+    <Compile Include="IMessageObserver.cs" />
+    <Compile Include="ISerializableObserver.cs" />
     <Compile Include="Listener.cs" />
-    <Compile Include="ListenerState.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="MessageWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

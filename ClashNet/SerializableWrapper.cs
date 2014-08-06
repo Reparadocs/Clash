@@ -24,5 +24,11 @@ namespace ClashNet
         {
             this.ClientId = clientId;
         }
+
+        public SerializableWrapper(ISerializable serializable, int clientId)
+        {
+            this.ClientId = clientId;
+            this.Serializable = serializable;
+        }
     }
 }
