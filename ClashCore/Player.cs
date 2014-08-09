@@ -9,6 +9,8 @@ namespace ClashCore
     public class Player
     {
         public int Health { get; private set; }
+        public int EnergyCap { get; private set; }
+        public int Energy { get; private set; }
         public int ClientId { get; private set; }
         public string Name { get; private set; }
         public Match Match { get; set; }
@@ -20,6 +22,7 @@ namespace ClashCore
         {
             ZoneContainer = new ZoneContainer(deck);
             this.Name = name;
+            this.Energy = Global.StartingEnergy;
             this.Health = Global.PlayerHealth;
         }
 
@@ -37,6 +40,8 @@ namespace ClashCore
         public void BeginTurn()
         {
             Match.Observer.OnNotify(NotificationType.BeginTurn, null, ZoneType.Deck, this);
+            EnergyCap += 1;
+            Energy += 1;
             ZoneContainer.Pop(ZoneType.Deck, ZoneType.Hand);
         }
 

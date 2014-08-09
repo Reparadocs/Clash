@@ -8,6 +8,10 @@ namespace ClashCore.Cards
 {
     public class HeatVision : Spell
     {
+        public override int Cost
+        {
+            get { return 3; }
+        }
         private static int numDraws = 2;
         public HeatVision(Player owner) : base(owner) { }
 

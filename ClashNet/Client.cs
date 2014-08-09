@@ -48,7 +48,6 @@ namespace ClashNet
         {
             byte[] buffer = new byte[4096];
             int bytesRead;
-            MessageType type;
 
             while(true)
             {
@@ -57,7 +56,6 @@ namespace ClashNet
                 try
                 {
                     bytesRead = stream.Read(buffer, 0, 4096);
-                    type = MessageType.Normal;
                     observer.OnNotify(new MessageWrapper(MessageType.Normal, buffer, Id));
                 }
                 catch

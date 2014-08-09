@@ -8,6 +8,10 @@ namespace ClashCore.Cards
 {
     public class Helmet : Device
     {
+        public override int Cost
+        {
+            get { return 2; }
+        }
         private static int armorValue = 1;
 
         public Helmet(Player owner) : base(owner) { }

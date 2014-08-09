@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClashCore
 {
-    enum NotificationType
+    public enum NotificationType
     {
         BeginTurn,
         EndTurn,

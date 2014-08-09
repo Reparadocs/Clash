@@ -8,36 +8,35 @@ namespace ClashCore
 {
     public class SerializableIdService
     {
-        List<Type> serializableTypes;
-        Dictionary<int, Type> serializableIdDict;
-        Dictionary<Type, int> reverseDict;
+        private Dictionary<int, Type> serializableIdDict;
+        private Dictionary<Type, int> reverseDict;
+        private int currentId = 0;
+
+        private void AddSerializables()
+        {
+
+        }
 
         public SerializableIdService()
         {
             serializableIdDict = new Dictionary<int,Type>();
             reverseDict = new Dictionary<Type, int>();
-            serializableTypes = new List<Type>();
-            //Add serializable types here WITH ADD
-
-            int curId = 0;
-            foreach(Type t in serializableTypes)
-            {
-                if (!typeof(ISerializable).IsAssignableFrom(t))
-                {
-                    throw new Exception("The list contains non-serializable types");
-                }
-                else
-                {
-                    serializableIdDict.Add(curId, t);
-                    curId++;
-                }
-            }
+            AddSerializables();
         }
 
-        private void Add(int id, Type serializable)
+        private void Add(Type serializable)
         {
-            serializableIdDict.Add(id, serializable);
-            reverseDict.Add(serializable, id);
+            if (typeof(ISerializable).IsAssignableFrom(serializable))
+            {
+                currentId++;
+                serializableIdDict.Add(currentId, serializable);
+                reverseDict.Add(serializable, currentId);
+            }
+            else
+            {
+                throw new Exception("Contians non-serializable types");
+            }
+            
         }
 
         public Dictionary<int, Type> getSerializableIdDict()

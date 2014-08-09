@@ -53,7 +53,7 @@ namespace ClashNet
         {
             ISerializable s = (ISerializable)serializable;
             byte[] typeId = BitConverter.GetBytes(serializableIdService.getId(s.GetType()));
-            byte[] message = s.Serialize(s);
+            byte[] message = s.Serialize();
             byte[] final = new byte[typeId.Length + message.Length];
             Buffer.BlockCopy(typeId, 0, final, 0, typeId.Length);
             Buffer.BlockCopy(message, 0, final, typeId.Length, message.Length);

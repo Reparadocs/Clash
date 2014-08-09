@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClashCore
+namespace ClashNet
 {
-    public interface ISerializable
+    public interface IConnectObserver
     {
-        byte[] Serialize();
-        ISerializable Deserialize(byte[] buffer);
+        void OnNotify(int clientId);
     }
 }

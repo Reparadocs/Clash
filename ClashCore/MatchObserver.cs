@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClashCore
 {
-    class MatchObserver
+    public class MatchObserver
     {
         Match match;
         public MatchObserver(Match match)
@@ -24,30 +24,16 @@ namespace ClashCore
                     switch (type)
                     {
                         case NotificationType.EnterZone:
-                            c.OnCardEnter(zone, card);
+                            c.OnCardEnter(zone, card, player);
                             break;
                         case NotificationType.ExitZone:
-                            c.OnCardExit(zone, card);
+                            c.OnCardExit(zone, card, player);
                             break;
                         case NotificationType.BeginTurn:
-                            if(c.Owner.Equals(player))
-                            {
-                                c.OnBeginTurn();
-                            }
-                            else
-                            {
-                                c.OnOpponentBeginTurn();
-                            }
+                            c.OnBeginTurn(player);
                             break;
                         case NotificationType.EndTurn:
-                            if (c.Owner.Equals(player))
-                            {
-                                c.OnEndTurn();
-                            }
-                            else
-                            {
-                                c.OnOpponentEndTurn();
-                            }
+                            c.OnEndTurn(player);
                             for (int i = 0; i < Global.NumPlayers; i++)
                             {
                                 if(!match.Players[i].Equals(player))

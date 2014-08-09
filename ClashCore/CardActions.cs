@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ClashCore
 {
-    public interface ISerializable
+    public enum CardActions
     {
-        byte[] Serialize();
-        ISerializable Deserialize(byte[] buffer);
+        Play,
+        Discard,
+        Draw
     }
 }

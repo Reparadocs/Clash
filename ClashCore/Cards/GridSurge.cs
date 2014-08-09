@@ -8,6 +8,10 @@ namespace ClashCore.Cards
 {
     public class GridSurge : Spell
     {
+        public override int Cost
+        {
+            get { return 3; }
+        }
         private static int spellDamage = 1;
 
         public GridSurge(Player owner) : base(owner) { }

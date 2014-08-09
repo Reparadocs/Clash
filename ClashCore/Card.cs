@@ -8,8 +8,8 @@ namespace ClashCore
 {
     public abstract class Card
     {
+        public abstract int Cost { get; }
         public ZoneType Zone { get; set; }
-
         public Player Owner { get; private set; }
 
         protected MatchObserver observer;
@@ -18,6 +18,37 @@ namespace ClashCore
         {
             this.Owner = owner;
             this.observer = owner.Match.Observer;
+        }
+
+        public void Play()
+        {
+            if(Owner.Energy >= Cost)
+            {
+                if(Zone == ZoneType.Hand)
+                {
+                    MoveTo(ZoneType.Play);
+                }
+                else
+                {
+                    throw new Exception("Card is not in hand");
+                }
+            }
+            else
+            {
+                throw new Exception("Not enough energy to play card");
+            }
+        }
+
+        public void Die()
+        {
+            if(Zone == ZoneType.Play)
+            {
+                MoveTo(ZoneType.Graveyard);
+            }
+            else
+            {
+                throw new Exception("Card is not in play");
+            }
         }
 
         public void MoveTo(ZoneType zone)
@@ -61,18 +92,25 @@ namespace ClashCore
             }
         }
 
-        public void OnBeginTurn() { }
-        public void OnEndTurn() { }
-        public void OnOpponentBeginTurn() { }
-        public void OnOpponentEndTurn() { }
-        public void OnCardEnter(ZoneType zone, Card card) { }
-        public void OnCardExit(ZoneType zone, Card card) { }
+        protected bool IsOwner(Player player)
+        {
+            if(player.Equals(Owner))
+            {
+                return true;
+            }
+            return false;
+        }
 
-        public void OnEnter(ZoneType zone)
+        public virtual void OnBeginTurn(Player player) { }
+        public virtual void OnEndTurn(Player player) { }
+        public virtual void OnCardEnter(ZoneType zone, Card card, Player player) { }
+        public virtual void OnCardExit(ZoneType zone, Card card, Player player) { }
+
+        public virtual void OnEnter(ZoneType zone)
         {
             observer.OnNotify(NotificationType.EnterZone, this, zone, Owner);
         }
-        public void OnExit(ZoneType zone)
+        public virtual void OnExit(ZoneType zone)
         {
             observer.OnNotify(NotificationType.ExitZone, this, zone, Owner);
         }

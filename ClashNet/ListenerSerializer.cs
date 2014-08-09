@@ -9,18 +9,25 @@ using ClashCore;
 
 namespace ClashNet
 {
-    public class ListenerSerializer : IMessageObserver
+    public class ListenerSerializer : IMessageObserver, IConnectObserver
     {
         public Listener Listener { get; private set; }
 
         SerializableIdService serializableIdService;
         ISerializableObserver observer;
+        IConnectObserver connectObserver;
 
-        public ListenerSerializer(int port, ISerializableObserver observer)
+        public ListenerSerializer(int port, ISerializableObserver observer, IConnectObserver connectObserver)
         {
-            this.Listener = new Listener(port, this);
+            this.Listener = new Listener(port, this, this);
             this.observer = observer;
+            this.connectObserver = connectObserver;
             serializableIdService = ServiceLocator.GetService<SerializableIdService>();
+        }
+        
+        public void OnNotify(int clientId)
+        {
+            connectObserver.OnNotify(clientId);
         }
 
         public void OnNotify(MessageWrapper message)
@@ -53,7 +60,7 @@ namespace ClashNet
         {
             SerializableWrapper wrapper = (SerializableWrapper)clientIdSerializable;
             byte[] typeId = BitConverter.GetBytes(serializableIdService.getId(wrapper.Serializable.GetType()));
-            byte[] message = wrapper.Serializable.Serialize(wrapper.Serializable);
+            byte[] message = wrapper.Serializable.Serialize();
             byte[] final = new byte[typeId.Length + message.Length];
             Buffer.BlockCopy(typeId, 0, final, 0, typeId.Length);
             Buffer.BlockCopy(message, 0, final, typeId.Length, message.Length);

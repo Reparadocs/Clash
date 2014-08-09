@@ -19,23 +19,30 @@ namespace ClashCore
             Sleeping = true;
         }
 
-        public void OnBeginTurn()
+        public override void OnBeginTurn(Player player)
         {
-            base.OnBeginTurn();
-            Wake();
+            base.OnBeginTurn(player);
+            if(IsOwner(player))
+            {
+                Wake();
+            }
         }
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
-            Health -= damage - Armor;
+            TakeTrueDamage(damage - Armor);
         }
 
-        public void TakeTrueDamage(int damage)
+        public virtual void TakeTrueDamage(int damage)
         {
             Health -= damage;
+            if(Health <= 0)
+            {
+                Die();
+            }
         }
 
-        public void Wake()
+        public virtual void Wake()
         {
             Sleeping = false;
         }

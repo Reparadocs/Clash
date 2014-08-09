@@ -72,5 +72,29 @@ namespace ClashCore
         {
             return (List<Card>)Zones[zone].OfType<T>();
         }
+
+        private void CheckDeck(List<Card> deck)
+        {
+            if(deck.Count < Global.DeckSize)
+            {
+                throw new Exception("Too few cards in deck");
+            }
+            Dictionary<Type, int> instances = new Dictionary<Type, int>();
+            foreach (Card c in deck)
+            {
+                if (instances.ContainsKey(c.GetType()))
+                {
+                    instances.Add(c.GetType(), 1);
+                }
+                else
+                {
+                    instances[c.GetType()] += 1;
+                    if(Global.MaxDuplicates < instances[c.GetType()])
+                    {
+                        throw new Exception("Too many instances of a card");
+                    }
+                }
+            }
+        }
     }
 }

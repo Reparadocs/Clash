@@ -14,12 +14,14 @@ namespace ClashNet
         TcpListener tcpListener;
         List<Client> connectedClients;
         IMessageObserver observer;
+        IConnectObserver connectObserver;
         int currentId; 
 
-        public Listener(int port, IMessageObserver observer)
+        public Listener(int port, IMessageObserver observer, IConnectObserver connectObserver)
         {
             currentId = 0;
             this.observer = observer;
+            this.connectObserver = connectObserver;
             connectedClients = new List<Client>();
             tcpListener = new TcpListener(IPAddress.Any, port);
             new Thread(new ThreadStart(tClientListener)).Start();
@@ -57,6 +59,7 @@ namespace ClashNet
         private void tConnectClient(object client)
         {
             Client c = new Client((TcpClient)client, observer, currentId);
+            connectObserver.OnNotify(currentId);
             currentId++;
             connectedClients.Add(c);
             observer.OnNotify(new MessageWrapper(MessageType.Connect, null, c.Id));

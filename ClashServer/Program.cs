@@ -12,7 +12,8 @@ namespace ClashServer
     {
         static void Main(string[] args)
         {
-
+            ServiceLocator.Initialize();
+            Server server = new Server(3000);
         }
     }
 }
