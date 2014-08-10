@@ -10,8 +10,9 @@ namespace ClashCore
     {
         public static int NumPlayers = 2;
         public static int PlayerHealth = 10;
-        public static int DeckSize = 40;
+        public static int DeckSize = 5;
         public static int MaxDuplicates = 3;
         public static int StartingEnergy = 0;
+        public static int NumberOfStartingCards = 2;
     }
 }

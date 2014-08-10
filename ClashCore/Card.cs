@@ -24,14 +24,7 @@ namespace ClashCore
         {
             if(Owner.Energy >= Cost)
             {
-                if(Zone == ZoneType.Hand)
-                {
-                    MoveTo(ZoneType.Play);
-                }
-                else
-                {
-                    throw new Exception("Card is not in hand");
-                }
+                Owner.Zones.PlayFromHand(this);
             }
             else
             {
@@ -41,26 +34,14 @@ namespace ClashCore
 
         public void Die()
         {
-            if(Zone == ZoneType.Play)
-            {
-                MoveTo(ZoneType.Graveyard);
-            }
-            else
-            {
-                throw new Exception("Card is not in play");
-            }
-        }
-
-        public void MoveTo(ZoneType zone)
-        {
-            Owner.ZoneContainer.Transfer(zone, this);
+            Owner.Zones.GraveyardFromPlay(this);
         }
 
         public void Draw(Player target, int numDraws)
         {
             for (int i = 0; i < numDraws; i++)
             {
-                target.ZoneContainer.Pop(ZoneType.Deck, ZoneType.Hand);
+                target.Zones.DrawFromDeck();
             }
         }
 
@@ -82,11 +63,11 @@ namespace ClashCore
 
         public void DamageAll(int damage)
         {
-            foreach(Creature c in Owner.ZoneContainer.Zones[ZoneType.Play])
+            foreach(Creature c in Owner.Zones.GetCardsInPlay())
             {
                 c.TakeDamage(damage);
             }
-            foreach(Creature c in Owner.Opponent.ZoneContainer.Zones[ZoneType.Play])
+            foreach(Creature c in Owner.Opponent.Zones.GetCardsInPlay())
             {
                 c.TakeDamage(damage);
             }

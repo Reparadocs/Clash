@@ -19,7 +19,7 @@ namespace ClashCore
 
             foreach (Player p in match.Players)
             {
-                foreach (Card c in p.ZoneContainer.Zones[ZoneType.Play])
+                foreach (Card c in p.Zones.GetCardsInPlay())
                 {
                     switch (type)
                     {

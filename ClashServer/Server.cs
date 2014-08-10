@@ -47,7 +47,7 @@ namespace ClashServer
         private void tNewGame(object idArr)
         {
             int[] playerIds = (int[])idArr;
-            matches.Add(new MatchHandler(playerIds[0], playerIds[1]));
+            matches.Add(new MatchHandler(playerIds));
         }
 
         public void OnNotify(SerializableWrapper serializable)

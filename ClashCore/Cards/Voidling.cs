@@ -21,7 +21,7 @@ namespace ClashCore.Cards
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
-            Attack += attackIncrease;
+            ChangeAttack(attackIncrease);
         }
 
     }

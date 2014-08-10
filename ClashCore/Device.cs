@@ -21,7 +21,7 @@ namespace ClashCore
         public void OnDetach()
         {
             ReverseDeviceEffect();
-            MoveTo(ZoneType.Graveyard);
+            Die();
         }
 
         public abstract void ReverseDeviceEffect();

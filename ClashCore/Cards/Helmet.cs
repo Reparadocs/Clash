@@ -20,7 +20,7 @@ namespace ClashCore.Cards
         {
             if (Attached is Creature)
             {
-                ((Creature)Attached).Armor += armorValue;
+                ((Creature)Attached).ChangeArmor(armorValue);
             }
         }
 
@@ -28,7 +28,7 @@ namespace ClashCore.Cards
         {
             if(Attached is Creature)
             {
-                ((Creature)Attached).Armor -= armorValue;
+                ((Creature)Attached).ChangeArmor(-armorValue);
             }
         }
     }

@@ -9,15 +9,19 @@ using ClashCore.Cards;
 
 namespace ClashServer
 {
-    class MatchHandler
+    class MatchHandler : ISerializableObserver
     {
         public int[] PlayerIds { get; private set; }
 
         private Match match;
-
-        public MatchHandler(int player1Id, int player2Id)
+        
+        public MatchHandler(int[] playerIds)
         {
-            PlayerIds = new int[2] { player1Id, player2Id };
+            if(playerIds.Length > Global.NumPlayers)
+            {
+                throw new Exception("Too many/few players");
+            }
+            this.PlayerIds = playerIds;
             List<Player> players = new List<Player>();
             List<Card> deck = new List<Card>();
             List<Card> deck2 = new List<Card>();
@@ -34,12 +38,16 @@ namespace ClashServer
             deck2.Add(new Helmet(players[0]));
             deck2.Add(new Voidling(players[0]));
 
-            players.Add(new Player("Mecha", deck, player1Id));
-            players.Add(new Player("Corruption", deck, player2Id));
+            ServerZones p1Zone = new ServerZones();
+            ServerZones p2Zone = new ServerZones();
+            p1Zone.InitializeDeck(deck);
+            p2Zone.InitializeDeck(deck2);
+
+            players.Add(new Player("Mecha", p1Zone, playerIds[0]));
+            players.Add(new Player("Corruption", p2Zone, playerIds[1]));
 
             match = new Match(players);
         }
-
         public void OnNotify(SerializableWrapper serializable)
         {
             if(!PlayerIds.Contains(serializable.ClientId))

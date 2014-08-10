@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableIdService.cs" />
     <Compile Include="Spell.cs" />
-    <Compile Include="ZoneContainer.cs" />
+    <Compile Include="Zones.cs" />
     <Compile Include="ZoneType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

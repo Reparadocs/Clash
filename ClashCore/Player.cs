@@ -14,20 +14,19 @@ namespace ClashCore
         public int ClientId { get; private set; }
         public string Name { get; private set; }
         public Match Match { get; set; }
-        public Player Opponent { get; set; }
-         
-        public ZoneContainer ZoneContainer { get; private set; }
+        public Player Opponent { get; set; }    
+        public Zones Zones { get; private set; }
 
-        public Player(string name, List<Card> deck)
+        public Player(string name, Zones zones)
         {
-            ZoneContainer = new ZoneContainer(deck);
+            this.Zones = zones;
             this.Name = name;
             this.Energy = Global.StartingEnergy;
             this.Health = Global.PlayerHealth;
         }
 
-        public Player(string name, List<Card> deck, int clientId) 
-            : this(name, deck)
+        public Player(string name, Zones zones, int clientId) 
+            : this(name, zones)
         {
             this.ClientId = clientId;
         }
@@ -37,12 +36,35 @@ namespace ClashCore
             Health -= damage;
         }
 
+        public void Heal(int heal)
+        {
+            Health += heal;
+        }
+
+        public void AddEnergy(int addedEnergy)
+        {
+            Energy += addedEnergy;
+        }
+
+        public void RaiseEnergyCap(int addedCap)
+        {
+            EnergyCap += addedCap;
+        }
+
+        public void BeginGame()
+        {
+            for(int i = 0; i < Global.NumberOfStartingCards; i++)
+            {
+                Zones.DrawFromDeck();
+            }
+        }
+
         public void BeginTurn()
         {
             Match.Observer.OnNotify(NotificationType.BeginTurn, null, ZoneType.Deck, this);
-            EnergyCap += 1;
-            Energy += 1;
-            ZoneContainer.Pop(ZoneType.Deck, ZoneType.Hand);
+            AddEnergy(1);
+            RaiseEnergyCap(1);
+            Zones.DrawFromDeck();
         }
 
         public void EndTurn()
