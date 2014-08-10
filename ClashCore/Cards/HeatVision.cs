@@ -12,6 +12,11 @@ namespace ClashCore.Cards
         {
             get { return 3; }
         }
+
+        public override string Name
+        {
+            get { return "Heat Vision"; }
+        }
         private static int numDraws = 2;
         public HeatVision(Player owner) : base(owner) { }
 

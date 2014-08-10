@@ -10,6 +10,7 @@ namespace ClashCore
     {
         Play,
         Discard,
-        Draw
+        Draw,
+        View
     }
 }

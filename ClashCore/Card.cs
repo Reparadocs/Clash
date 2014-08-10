@@ -8,6 +8,7 @@ namespace ClashCore
 {
     public abstract class Card
     {
+        public abstract String Name { get; }
         public abstract int Cost { get; }
         public ZoneType Zone { get; set; }
         public Player Owner { get; private set; }
@@ -24,7 +25,7 @@ namespace ClashCore
         {
             if(Owner.Energy >= Cost)
             {
-                Owner.Zones.PlayFromHand(this);
+                Owner.Zones.PlayFromHand(this, Owner.ClientId);
             }
             else
             {
@@ -41,7 +42,7 @@ namespace ClashCore
         {
             for (int i = 0; i < numDraws; i++)
             {
-                target.Zones.DrawFromDeck();
+                target.Zones.DrawFromDeck(Owner.ClientId);
             }
         }
 

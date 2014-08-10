@@ -12,6 +12,11 @@ namespace ClashCore.Cards
         {
             get { return 3; }
         }
+
+        public override string Name
+        {
+            get { return "Grid Surge"; }
+        }
         private static int spellDamage = 1;
 
         public GridSurge(Player owner) : base(owner) { }

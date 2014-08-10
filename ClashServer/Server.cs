@@ -41,13 +41,14 @@ namespace ClashServer
             else
             {
                 new Thread(new ParameterizedThreadStart(tNewGame)).Start(new int[2] { waiting, clientId });
+                waiting = -1;
             }
         }
 
         private void tNewGame(object idArr)
         {
             int[] playerIds = (int[])idArr;
-            matches.Add(new MatchHandler(playerIds));
+            matches.Add(new MatchHandler(playerIds, listener));
         }
 
         public void OnNotify(SerializableWrapper serializable)

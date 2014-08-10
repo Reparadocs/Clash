@@ -60,6 +60,7 @@ namespace ClashNet
         {
             Client c = new Client((TcpClient)client, observer, currentId);
             connectObserver.OnNotify(currentId);
+            SendMessageToClient(BitConverter.GetBytes(currentId), currentId);
             currentId++;
             connectedClients.Add(c);
             observer.OnNotify(new MessageWrapper(MessageType.Connect, null, c.Id));

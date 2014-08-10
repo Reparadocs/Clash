@@ -20,18 +20,18 @@ namespace ClashCore
 
         public abstract void ShuffleDeck();
 
-        public abstract Card ViewTopCardOfDeck();
+        public abstract Card ViewTopCardOfDeck(int clientId);
 
-        public abstract Card DrawFromDeck();
+        public abstract Card DrawFromDeck(int clientId);
 
         public abstract void InitializeDeck(List<Card> deck);
 
-        public void PlayFromHand(Card card)
+        public virtual void PlayFromHand(Card card, int clientId)
         {
             Transfer(ZoneType.Hand, ZoneType.Play, card);
         }
 
-        public void GraveyardFromPlay(Card card)
+        public virtual void GraveyardFromPlay(Card card)
         {
             Transfer(ZoneType.Play, ZoneType.Graveyard, card);
         }
@@ -55,11 +55,9 @@ namespace ClashCore
             card.OnEnter(newZone);
         }
 
-        /*
-        public List<Card> SearchByCard<T>(ZoneType zone)
+        public Card SearchForCard(String cardName, ZoneType zone)
         {
-            return (List<Card>)Zones[zone].OfType<T>();
+            return ZoneDict[zone].First(c => c.Name == cardName);
         }
-        */
     }
 }

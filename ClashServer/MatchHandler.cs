@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClashNet;
 using ClashCore;
 using ClashCore.Cards;
+using ClashCore.Serializables;
 
 namespace ClashServer
 {
@@ -13,10 +14,13 @@ namespace ClashServer
     {
         public int[] PlayerIds { get; private set; }
 
+        private ListenerSerializer listener;
         private Match match;
+        private Dictionary<int, Player> idPlayerDict;
         
-        public MatchHandler(int[] playerIds)
+        public MatchHandler(int[] playerIds, ListenerSerializer listener)
         {
+            this.listener = listener;
             if(playerIds.Length > Global.NumPlayers)
             {
                 throw new Exception("Too many/few players");
@@ -38,21 +42,29 @@ namespace ClashServer
             deck2.Add(new Helmet(players[0]));
             deck2.Add(new Voidling(players[0]));
 
-            ServerZones p1Zone = new ServerZones();
-            ServerZones p2Zone = new ServerZones();
+            ServerZones p1Zone = new ServerZones(listener, PlayerIds);
+            ServerZones p2Zone = new ServerZones(listener, PlayerIds);
             p1Zone.InitializeDeck(deck);
             p2Zone.InitializeDeck(deck2);
 
+            idPlayerDict = new Dictionary<int, Player>();
             players.Add(new Player("Mecha", p1Zone, playerIds[0]));
             players.Add(new Player("Corruption", p2Zone, playerIds[1]));
+
+            idPlayerDict.Add(players[0].ClientId, players[0]);
+            idPlayerDict.Add(players[1].ClientId, players[1]);
 
             match = new Match(players);
         }
         public void OnNotify(SerializableWrapper serializable)
         {
-            if(!PlayerIds.Contains(serializable.ClientId))
+            if(serializable.Serializable is CardSerializer)
             {
-                throw new Exception("This message is not from a client in this game");
+                CardSerializer card = (CardSerializer)serializable.Serializable;
+                if(card.Action == CardActions.Play)
+                {
+                    idPlayerDict[serializable.ClientId].Zones.SearchForCard(card.TargetCard, ZoneType.Hand).Play();
+                }
             }
         }
     }

@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="Card.cs" />
     <Compile Include="CardActions.cs" />
-    <Compile Include="CardIdService.cs" />
     <Compile Include="Cards\GridSurge.cs" />
     <Compile Include="Cards\HeatVision.cs" />
     <Compile Include="Cards\Fastlane.cs" />
@@ -55,7 +54,7 @@
     <Compile Include="Match.cs" />
     <Compile Include="NotificationType.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="Serializables\Card.cs" />
+    <Compile Include="Serializables\CardSerializer.cs" />
     <Compile Include="ServiceProvider.cs" />
     <Compile Include="ISerializable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

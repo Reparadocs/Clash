@@ -17,18 +17,13 @@ namespace ClashCore
         public Player Opponent { get; set; }    
         public Zones Zones { get; private set; }
 
-        public Player(string name, Zones zones)
+        public Player(string name, Zones zones, int clientId)
         {
+            this.ClientId = clientId;
             this.Zones = zones;
             this.Name = name;
             this.Energy = Global.StartingEnergy;
             this.Health = Global.PlayerHealth;
-        }
-
-        public Player(string name, Zones zones, int clientId) 
-            : this(name, zones)
-        {
-            this.ClientId = clientId;
         }
 
         public void TakeDamage(int damage)
@@ -55,7 +50,7 @@ namespace ClashCore
         {
             for(int i = 0; i < Global.NumberOfStartingCards; i++)
             {
-                Zones.DrawFromDeck();
+                Zones.DrawFromDeck(ClientId);
             }
         }
 
@@ -64,7 +59,7 @@ namespace ClashCore
             Match.Observer.OnNotify(NotificationType.BeginTurn, null, ZoneType.Deck, this);
             AddEnergy(1);
             RaiseEnergyCap(1);
-            Zones.DrawFromDeck();
+            Zones.DrawFromDeck(ClientId);
         }
 
         public void EndTurn()

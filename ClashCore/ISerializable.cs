@@ -8,7 +8,7 @@ namespace ClashCore
 {
     public interface ISerializable
     {
+        //All implementation should also include a static Deserialize method
         byte[] Serialize();
-        ISerializable Deserialize(byte[] buffer);
     }
 }

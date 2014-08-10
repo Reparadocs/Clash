@@ -12,6 +12,11 @@ namespace ClashCore.Cards
         {
             get { return 1; }
         }
+
+        public override string Name
+        {
+            get { return "Voidling"; }
+        }
         private static int initialAttack = 1;
         private static int initialHealth = 1;
         private static int attackIncrease = 1;

@@ -12,6 +12,11 @@ namespace ClashCore.Cards
         {
             get { return 2; }
         }
+
+        public override string Name
+        {
+            get { return "Helmet"; }
+        }
         private static int armorValue = 1;
 
         public Helmet(Player owner) : base(owner) { }
