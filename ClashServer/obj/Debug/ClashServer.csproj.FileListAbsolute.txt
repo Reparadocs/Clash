@@ -8,3 +8,5 @@ C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\obj\
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\obj\Debug\ClashServer.pdb
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashCore.dll
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashCore.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashServer.exe.CodeAnalysisLog.xml
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashServer\bin\Debug\ClashServer.exe.lastcodeanalysissucceeded

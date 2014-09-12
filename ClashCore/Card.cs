@@ -8,7 +8,7 @@ namespace ClashCore
 {
     public abstract class Card
     {
-        public abstract String Name { get; }
+        public abstract string Name { get; }
         public abstract int Cost { get; }
         public ZoneType Zone { get; set; }
         public Player Owner { get; private set; }
@@ -18,7 +18,10 @@ namespace ClashCore
         public Card(Player owner)
         {
             this.Owner = owner;
-            this.observer = owner.Match.Observer;
+            if (owner != null)
+            {
+                this.observer = owner.Match.Observer;
+            }
         }
 
         public void Play()

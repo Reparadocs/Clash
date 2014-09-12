@@ -18,7 +18,7 @@ namespace ClashCore.Serializables
             this.Action = action;
         }
 
-        public override byte[] Serialize()
+        public byte[] Serialize()
         {
             using(MemoryStream m = new MemoryStream())
             {

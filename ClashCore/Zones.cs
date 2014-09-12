@@ -24,8 +24,6 @@ namespace ClashCore
 
         public abstract Card DrawFromDeck(int clientId);
 
-        public abstract void InitializeDeck(List<Card> deck);
-
         public virtual void PlayFromHand(Card card, int clientId)
         {
             Transfer(ZoneType.Hand, ZoneType.Play, card);
@@ -50,9 +48,14 @@ namespace ClashCore
         {
             ZoneDict[currentZone].Remove(card);
             card.OnExit(currentZone);
-            card.Zone = newZone;
-            ZoneDict[newZone].Add(card);
-            card.OnEnter(newZone);
+            Add(newZone, card);
+        }
+
+        protected void Add(ZoneType zone, Card card)
+        {
+            card.Zone = zone;
+            ZoneDict[zone].Add(card);
+            card.OnEnter(zone);
         }
 
         public Card SearchForCard(String cardName, ZoneType zone)

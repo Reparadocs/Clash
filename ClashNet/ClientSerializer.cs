@@ -17,9 +17,9 @@ namespace ClashNet
         SerializableIdService serializableIdService;
         ISerializableObserver observer;
 
-        public ClientSerializer(TcpClient tcpClient, ISerializableObserver observer)
+        public ClientSerializer(TcpClient tcpClient, string ipAddress, int port, ISerializableObserver observer)
         {
-            this.Client = new Client(tcpClient, this);
+            this.Client = new Client(tcpClient, ipAddress, port, this);
             this.observer = observer;
             serializableIdService = ServiceLocator.GetService<SerializableIdService>();
         }

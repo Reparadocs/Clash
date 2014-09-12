@@ -31,7 +31,7 @@ namespace ClashServer
             if (ZoneDict[ZoneType.Deck].Count > 0)
             {
                 Card peek = ZoneDict[ZoneType.Deck][0];
-                listener.SendSerializableToClient(new CardSerializer(peek.GetType(), CardActions.View), clientId);
+                listener.SendSerializableToClient(new CardSerializer(peek.Name, CardActions.View), clientId);
                 return peek;
             }
             listener.SendSerializableToClient(new CardSerializer(null, CardActions.View), clientId);
@@ -43,7 +43,7 @@ namespace ClashServer
             if (ZoneDict[ZoneType.Deck].Count > 0)
             {
                 Card pop = ZoneDict[ZoneType.Deck][0];
-                listener.SendSerializableToClient(new CardSerializer(pop.GetType(), CardActions.Draw), clientId);
+                listener.SendSerializableToClient(new CardSerializer(pop.Name, CardActions.Draw), clientId);
                 Transfer(ZoneType.Deck, ZoneType.Hand, pop);
                 return pop;
             }
@@ -54,10 +54,10 @@ namespace ClashServer
         public override void PlayFromHand(Card card, int clientId)
         {
             base.PlayFromHand(card, clientId);
-            listener.SendSerializableToClient(new CardSerializer(card.GetType(), CardActions.Play), GetOtherClientId(clientId));
+            listener.SendSerializableToClient(new CardSerializer(card.Name, CardActions.Play), GetOtherClientId(clientId));
         }
 
-        public override void InitializeDeck(List<Card> deck)
+        public void InitializeDeck(List<Card> deck)
         {
             CheckDeck(deck);
             foreach(Card c in deck)

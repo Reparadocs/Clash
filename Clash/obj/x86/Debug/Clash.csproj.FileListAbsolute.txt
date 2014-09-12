@@ -23,3 +23,5 @@ C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\Clash\bin\Window
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\Clash\obj\x86\Debug\Clash.csprojResolveAssemblyReference.cache
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\Clash\obj\x86\Debug\Clash.exe
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\Clash\obj\x86\Debug\Clash.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\Clash\bin\Windows\Debug\Clash.exe.CodeAnalysisLog.xml
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\Clash\bin\Windows\Debug\Clash.exe.lastcodeanalysissucceeded

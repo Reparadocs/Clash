@@ -14,7 +14,7 @@ namespace ClashCore
 
         private void AddSerializables()
         {
-
+            Add(typeof(Serializables.CardSerializer));
         }
 
         public SerializableIdService()

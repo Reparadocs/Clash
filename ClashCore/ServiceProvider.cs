@@ -14,6 +14,7 @@ namespace ClashCore
         {
             services = new Dictionary<Type, object>();
             AddService<SerializableIdService>(new SerializableIdService());
+            AddService<CardNameService>(new CardNameService());
         }
 
         public static T GetService<T>()

@@ -5,3 +5,5 @@ C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashNet\obj\Deb
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashNet\obj\Debug\ClashNet.pdb
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashNet\bin\Debug\ClashCore.dll
 C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashNet\bin\Debug\ClashCore.pdb
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashNet\bin\Debug\ClashNet.dll.CodeAnalysisLog.xml
+C:\Users\reparadocs\documents\visual studio 2013\Projects\Clash\ClashNet\bin\Debug\ClashNet.dll.lastcodeanalysissucceeded

@@ -18,8 +18,9 @@ namespace ClashNet
         NetworkStream stream;
         IMessageObserver observer;
         
-        public Client(TcpClient client, IMessageObserver observer)
+        public Client(TcpClient client, IMessageObserver observer, int id)
         {
+            this.Id = id;
             this.observer = observer;
             tcpClient = client;
             stream = client.GetStream();
@@ -27,9 +28,13 @@ namespace ClashNet
             new Thread(new ThreadStart(tReceive)).Start();
         }
 
-        public Client(TcpClient client, IMessageObserver observer, int id) : this(client, observer)
+        public Client(TcpClient client, string ipAddress, int port, IMessageObserver observer)
         {
-            this.Id = id;
+            tcpClient = client;
+            client.Connect(ipAddress, port);
+            stream = client.GetStream();
+            State = ClientState.Active;
+            new Thread(new ThreadStart(tReceive)).Start();
         }
 
         public void SendMessage(byte[] message)

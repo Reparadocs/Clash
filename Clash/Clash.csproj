@@ -35,7 +35,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClientHandlerService.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameServiceProvider.cs" />
+    <Compile Include="OpponentZones.cs" />
+    <Compile Include="PlayerZones.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,6 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClashCore\ClashCore.csproj">
+      <Project>{a989b297-db3d-4fdc-a159-fd5be91c4caf}</Project>
+      <Name>ClashCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClashNet\ClashNet.csproj">
+      <Project>{fd94eb50-b499-4572-854c-be451810013d}</Project>
+      <Name>ClashNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
